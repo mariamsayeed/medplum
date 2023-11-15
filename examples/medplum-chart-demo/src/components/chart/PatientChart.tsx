@@ -95,7 +95,7 @@ export function PatientChart(): JSX.Element | null {
             'url(https://images.unsplash.com/photo-1535961652354-923cb08225a7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8bmF0dXJlJTIwc21hbGx8ZW58MHwwfDB8fHww&auto=format&fit=crop&w=800&q=60)',
         }}
       />
-      <ResourceAvatar value={patient} size={80} radius={80} mx="auto" mt={-50} sx={{ border: '2px solid white' }} />
+      <ResourceAvatar value={patient} size={80} radius={80} mx="auto" mt={-50} style={{ border: '2px solid white' }} />
       <Text ta="center" fz="lg" fw={500}>
         {formatHumanName(patient.name?.[0] as HumanName)}
       </Text>
@@ -106,25 +106,25 @@ export function PatientChart(): JSX.Element | null {
         <Group grow>
           <Flex justify="center" align="center" direction="column" gap={0} maw="33%">
             <IconUserSquare size={24} color="gray" />
-            <Text fz="xs" align="center" sx={{ whiteSpace: 'nowrap' }}>
+            <Text fz="xs" ta="center" style={{ whiteSpace: 'nowrap' }}>
               {formatHumanName(patient.name?.[0] as HumanName)}
             </Text>
           </Flex>
           <Flex justify="center" align="center" direction="column" gap={0}>
             <IconStethoscope size={24} color="gray" />
-            <Text fz="xs" sx={{ whiteSpace: 'nowrap' }}>
+            <Text fz="xs" style={{ whiteSpace: 'nowrap' }}>
               <ProviderName patient={patient} />
             </Text>
           </Flex>
           <Flex justify="center" align="center" direction="column" gap={0}>
             <IconGenderFemale size={24} color="gray" />
-            <Text fz="xs" sx={{ whiteSpace: 'nowrap' }}>
+            <Text fz="xs" style={{ whiteSpace: 'nowrap' }}>
               Female
             </Text>
           </Flex>
         </Group>
       </Paper>
-      <Stack spacing="xs">
+      <Stack gap="xs">
         <Anchor href="#">No upcoming appointments</Anchor>
         <Anchor href="#">No documented visits</Anchor>
         <Divider />

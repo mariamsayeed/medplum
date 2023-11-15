@@ -1,11 +1,11 @@
 import { ValueSetExpansionContains } from '@medplum/fhirtypes';
+import { useMedplum } from '@medplum/react-hooks';
 import { useCallback } from 'react';
 import {
   AsyncAutocomplete,
   AsyncAutocompleteOption,
   AsyncAutocompleteProps,
 } from '../AsyncAutocomplete/AsyncAutocomplete';
-import { useMedplum } from '@medplum/react-hooks';
 
 export interface ValueSetAutocompleteProps
   extends Omit<AsyncAutocompleteProps<ValueSetExpansionContains>, 'loadOptions' | 'toKey' | 'toOption'> {
@@ -77,11 +77,9 @@ export function ValueSetAutocomplete(props: ValueSetAutocompleteProps): JSX.Elem
       {...rest}
       creatable={creatable ?? true}
       clearable={clearable ?? true}
-      toKey={toKey}
       toOption={toOption}
       loadOptions={loadValues}
       onCreate={createValue}
-      getCreateLabel={creatable === false ? undefined : (query: any) => `+ Create ${query}`}
     />
   );
 }

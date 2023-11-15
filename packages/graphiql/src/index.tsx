@@ -47,8 +47,8 @@ const theme: MantineThemeOverride = {
     sizes: {
       h1: {
         fontSize: '1.125rem',
-        fontWeight: 500,
-        lineHeight: 2.0,
+        fontWeight: '500',
+        lineHeight: '2.0',
       },
     },
   },
@@ -167,7 +167,7 @@ const root = createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <StrictMode>
     <MedplumProvider medplum={medplum}>
-      <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
+      <MantineProvider theme={theme}>
         <App />
       </MantineProvider>
     </MedplumProvider>

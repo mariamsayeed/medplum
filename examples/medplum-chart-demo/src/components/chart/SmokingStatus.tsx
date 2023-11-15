@@ -88,7 +88,7 @@ export function SmokingStatus(props: SmokingStatusProps): JSX.Element {
 
   return (
     <>
-      <Group position="apart">
+      <Group justify="space-between">
         <Text fz="md" fw={700}>
           Smoking Status
         </Text>
@@ -113,7 +113,7 @@ export function SmokingStatus(props: SmokingStatusProps): JSX.Element {
                 <Radio key={code} value={code} label={text} my="xs" />
               ))}
             </Radio.Group>
-            <Group position="right" spacing={4} mt="md">
+            <Group justify="flex-end" gap={4} mt="md">
               <Button type="submit">Save</Button>
             </Group>
           </Stack>

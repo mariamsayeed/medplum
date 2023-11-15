@@ -41,7 +41,7 @@ export function Medications(props: MedicationsProps): JSX.Element {
 
   return (
     <>
-      <Group position="apart">
+      <Group justify="space-between">
         <Text fz="md" fw={700}>
           Medications
         </Text>
@@ -70,10 +70,10 @@ export function Medications(props: MedicationsProps): JSX.Element {
               onChange={(request) => setCode(request)}
             />
             <Radio.Group mt={32} name="status" label="Request Status" required>
-              <Radio key={'active'} value={'active'} label={'active'} my="xs" />
-              <Radio key={'stopped'} value={'stopped'} label={'stopped'} my="xs" />
+              <Radio key="active" value="active" label="active" my="xs" />
+              <Radio key="stopped" value="stopped" label="stopped" my="xs" />
             </Radio.Group>
-            <Group position="right" spacing={4} mt="md">
+            <Group justify="flex-end" gap={4} mt="md">
               <Button type="submit">Save</Button>
             </Group>
           </Stack>

@@ -49,7 +49,7 @@ export default function Publisher(): JSX.Element {
 
   return (
     <Document>
-      <Title align="center" fz={36}>
+      <Title ta="center" fz={36}>
         Publisher
       </Title>
       <Stack align="center">

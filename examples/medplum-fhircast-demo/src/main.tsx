@@ -1,6 +1,8 @@
 import { MantineProvider, MantineThemeOverride } from '@mantine/core';
+import '@mantine/core/styles.css';
 import { MedplumClient } from '@medplum/core';
 import { MedplumProvider } from '@medplum/react';
+import '@medplum/react/styles.css';
 import { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
@@ -16,8 +18,8 @@ const theme: MantineThemeOverride = {
     sizes: {
       h1: {
         fontSize: '1.125rem',
-        fontWeight: 500,
-        lineHeight: 2.0,
+        fontWeight: '500',
+        lineHeight: '2.0',
       },
     },
   },
@@ -39,7 +41,7 @@ ReactDOM.createRoot(root).render(
   <StrictMode>
     <BrowserRouter>
       <MedplumProvider medplum={medplum}>
-        <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
+        <MantineProvider theme={theme}>
           <App />
         </MantineProvider>
       </MedplumProvider>

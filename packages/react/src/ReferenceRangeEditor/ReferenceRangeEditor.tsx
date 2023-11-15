@@ -1,4 +1,4 @@
-import { ActionIcon, Button, createStyles, Divider, Group, NativeSelect, Stack, Text, TextInput } from '@mantine/core';
+import { ActionIcon, Button, Divider, Group, NativeSelect, Stack, Text, TextInput } from '@mantine/core';
 import { formatRange, getCodeBySystem } from '@medplum/core';
 import { CodeableConcept, ObservationDefinition, ObservationDefinitionQualifiedInterval } from '@medplum/fhirtypes';
 import { IconCircleMinus, IconCirclePlus } from '@tabler/icons-react';
@@ -7,17 +7,7 @@ import { Container } from '../Container/Container';
 import { Form } from '../Form/Form';
 import { RangeInput } from '../RangeInput/RangeInput';
 import { killEvent } from '../utils/dom';
-
-const useStyles = createStyles((theme) => ({
-  section: {
-    position: 'relative',
-    margin: '4px 4px 8px 0',
-    padding: '6px 12px 16px 6px',
-    border: `1.5px solid ${theme.colors.gray[3]}`,
-    borderRadius: theme.radius.sm,
-    transition: 'all 0.1s',
-  },
-}));
+import classes from './ReferenceRangeEditor.module.css';
 
 // Properties of qualified intervals used for grouping
 const intervalFilters = ['gender', 'age', 'gestationalAge', 'context', 'appliesTo', 'category'] as const;
@@ -81,7 +71,7 @@ export function ReferenceRangeEditor(props: ReferenceRangeEditorProps): JSX.Elem
         <IconCirclePlus />
       </ActionIcon>
 
-      <Group position="right">
+      <Group justify="flex-end">
         <Button type="submit">Save</Button>
       </Group>
     </Form>
@@ -175,11 +165,10 @@ export interface ReferenceRangeGroupEditorProps {
 
 export function ReferenceRangeGroupEditor(props: ReferenceRangeGroupEditorProps): JSX.Element {
   const { intervalGroup, unit } = props;
-  const { classes } = useStyles();
   return (
     <Container data-testid={intervalGroup.id} className={classes.section}>
-      <Stack spacing={'lg'}>
-        <Group position="right">
+      <Stack gap="lg">
+        <Group justify="flex-end">
           <ActionIcon
             title="Remove Group"
             data-testid={`remove-group-button-${intervalGroup.id}`}
@@ -196,14 +185,14 @@ export function ReferenceRangeGroupEditor(props: ReferenceRangeGroupEditorProps)
         <ReferenceRangeGroupFilters intervalGroup={intervalGroup} onChange={props.onChange} />
         <Divider />
         {intervalGroup.intervals.map((interval) => (
-          <Stack key={`interval-${interval.id}`} spacing={'xs'}>
+          <Stack key={`interval-${interval.id}`} gap="xs">
             <Group>
               <TextInput
                 key={`condition-${interval.id}`}
                 data-testid={`condition-${interval.id}`}
                 defaultValue={interval.condition}
-                label={'Condition: '}
-                size={'sm'}
+                label="Condition: "
+                size="sm"
                 onChange={(e) => {
                   killEvent(e);
                   props.onChange(intervalGroup.id, { ...interval, condition: e.currentTarget.value.trim() });
@@ -301,7 +290,7 @@ function ReferenceRangeGroupFilters(props: ReferenceRangeGroupFiltersProps): JSX
           }}
         />
       </Group>
-      <Group spacing={'xs'}>
+      <Group gap="xs">
         <Text component="label" htmlFor={`div-age-${intervalGroup.id}`}>
           Age:
         </Text>

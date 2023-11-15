@@ -148,7 +148,7 @@ export function ResourceArrayInput(props: Readonly<ResourceArrayInputProps>): JS
 
       {showNonSliceValues &&
         nonSliceValues.map((value, valueIndex) => (
-          <Group key={`${valueIndex}-${nonSliceValues.length}`} noWrap style={{ flexGrow: 1 }}>
+          <Group key={`${valueIndex}-${nonSliceValues.length}`} wrap="nowrap" style={{ flexGrow: 1 }}>
             <div style={{ flexGrow: 1 }}>
               <ResourcePropertyInput
                 arrayElement={true}

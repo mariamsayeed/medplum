@@ -9,8 +9,7 @@ export interface CodeInputProps {
   defaultValue?: string;
   onChange?: (value: string | undefined) => void;
   creatable?: boolean;
-  maxSelectedValues?: number;
-  clearSearchOnChange?: boolean;
+  maxValues?: number;
   clearable?: boolean;
 }
 
@@ -34,8 +33,7 @@ export function CodeInput(props: CodeInputProps): JSX.Element {
       defaultValue={codeToValueSetElement(value)}
       onChange={handleChange}
       creatable={props.creatable}
-      maxSelectedValues={props.maxSelectedValues ?? 1}
-      clearSearchOnChange={props.clearSearchOnChange}
+      maxValues={props.maxValues ?? 1}
       clearable={props.clearable}
     />
   );

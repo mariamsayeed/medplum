@@ -1,0 +1,6 @@
+.paper {
+  @media (max-width: var(--mantine-breakpoints-sm)) {
+    margin: 2px;
+    padding: 4px;
+  }
+}

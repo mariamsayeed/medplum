@@ -48,7 +48,7 @@ export function Vaccines(): JSX.Element {
 
 function VaccineList({ vaccines }: { vaccines: Immunization[] }): JSX.Element {
   return (
-    <Stack spacing={0}>
+    <Stack gap={0}>
       {vaccines.map((vaccine) => (
         <Vaccine key={vaccine.id} vaccine={vaccine} />
       ))}
@@ -62,7 +62,7 @@ function Vaccine({ vaccine }: { vaccine: Immunization }): JSX.Element {
   return (
     <InfoButton onClick={() => navigate(`./${vaccine.id}`)}>
       <div>
-        <Text c={theme.fn.primaryColor()} fw={500} mb={8}>
+        <Text c={theme.primaryColor} fw={500} mb={8}>
           {vaccine.vaccineCode?.text}
         </Text>
         <Text c="gray.6">

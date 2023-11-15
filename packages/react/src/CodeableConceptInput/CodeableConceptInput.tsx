@@ -27,7 +27,7 @@ export function CodeableConceptInput(props: CodeableConceptInputProps): JSX.Elem
       name={props.name}
       placeholder={props.placeholder}
       defaultValue={value && codeableConceptToValueSetElement(value)}
-      maxSelectedValues={1}
+      maxValues={1}
       onChange={handleChange}
     />
   );
