@@ -61,6 +61,7 @@ export function ReferenceRangeEditor(props: ReferenceRangeEditorProps): JSX.Elem
       </Stack>
       <ActionIcon
         title="Add Group"
+        variant="subtle"
         size="sm"
         onClick={(e: MouseEvent) => {
           killEvent(e);
@@ -171,6 +172,7 @@ export function ReferenceRangeGroupEditor(props: ReferenceRangeGroupEditorProps)
         <Group justify="flex-end">
           <ActionIcon
             title="Remove Group"
+            variant="subtle"
             data-testid={`remove-group-button-${intervalGroup.id}`}
             key={`remove-group-button-${intervalGroup.id}`}
             size="sm"
@@ -200,6 +202,7 @@ export function ReferenceRangeGroupEditor(props: ReferenceRangeGroupEditorProps)
               />
               <ActionIcon
                 title="Remove Interval"
+                variant="subtle"
                 size="sm"
                 key={`remove-interval-${interval.id}`}
                 data-testid={`remove-interval-${interval.id}`}
@@ -224,6 +227,7 @@ export function ReferenceRangeGroupEditor(props: ReferenceRangeGroupEditorProps)
         ))}
         <ActionIcon
           title="Add Interval"
+          variant="subtle"
           size="sm"
           onClick={(e: React.MouseEvent) => {
             killEvent(e);

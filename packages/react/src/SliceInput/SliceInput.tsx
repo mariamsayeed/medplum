@@ -85,6 +85,8 @@ export function SliceInput(props: SliceInputProps): JSX.Element | null {
                 <div>
                   <ActionIcon
                     title="Remove"
+                    variant="subtle"
+                    color="gray"
                     size="sm"
                     data-testid={props.testId && `${props.testId}-remove-${valueIndex}`}
                     onClick={(e: React.MouseEvent) => {
@@ -106,6 +108,7 @@ export function SliceInput(props: SliceInputProps): JSX.Element | null {
             <div>
               <ActionIcon
                 title="Add"
+                variant="subtle"
                 size="sm"
                 color="green"
                 data-testid={props.testId && `${props.testId}-add`}
