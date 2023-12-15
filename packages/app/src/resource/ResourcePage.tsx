@@ -147,7 +147,7 @@ export function ResourcePage(): JSX.Element | null {
                 {tabs.map((t) => (
                   <Tabs.Tab key={t} value={t.toLowerCase()}>
                     {BETA_TABS.includes(t) ? (
-                      <Group spacing={2} wrap="nowrap">
+                      <Group gap="xs" wrap="nowrap">
                         {t}
                         <Badge color={theme.primaryColor} size="sm">
                           Beta
