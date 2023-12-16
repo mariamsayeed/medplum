@@ -98,7 +98,7 @@ export function SmokingStatus(props: SmokingStatusProps): JSX.Element {
       </Group>
       {smokingStatus?.valueCodeableConcept ? (
         <Box>
-          <Badge>
+          <Badge variant="light">
             <CodeableConceptDisplay value={smokingStatus.valueCodeableConcept} />
           </Badge>
         </Box>

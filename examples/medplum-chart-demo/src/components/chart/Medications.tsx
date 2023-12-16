@@ -52,7 +52,13 @@ export function Medications(props: MedicationsProps): JSX.Element {
       {medicationRequests.length > 0 ? (
         <Box>
           {medicationRequests.map((request) => (
-            <Badge mt={4} key={request.id} maw="50%" color={request.status === 'active' ? 'blue' : 'gray'}>
+            <Badge
+              mt={4}
+              key={request.id}
+              variant="light"
+              maw="50%"
+              color={request.status === 'active' ? 'blue' : 'gray'}
+            >
               <CodeableConceptDisplay value={request.medicationCodeableConcept} />
             </Badge>
           ))}

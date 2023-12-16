@@ -52,7 +52,7 @@ export function Allergies(props: AllergiesProps): JSX.Element {
       {allergies.length > 0 ? (
         <Box>
           {allergies.map((allergy) => (
-            <Badge key={allergy.id} maw="100%">
+            <Badge key={allergy.id} variant="light" maw="100%">
               <CodeableConceptDisplay value={allergy.code} />
             </Badge>
           ))}
