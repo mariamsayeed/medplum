@@ -1,6 +1,6 @@
 .paper {
-  /* [`@media (max-width: ${theme.breakpoints.sm})`] {
+  @mixin smaller-than $mantine-breakpoint-sm {
     margin: 2px;
     padding: 4px;
-  } */
+  }
 }

@@ -27,7 +27,7 @@ export function Vaccines(): JSX.Element {
               <Title order={2} fw={900}>
                 No upcoming vaccines available
               </Title>
-              <Text color="gray">
+              <Text c="gray">
                 If you think you&apos;re missing upcoming vaccines that should be here, please{' '}
                 <Anchor href="#">contact our medical team</Anchor>.
               </Text>
@@ -71,9 +71,7 @@ function Vaccine({ vaccine }: { vaccine: Immunization }): JSX.Element {
         </Text>
       </div>
       <div>
-        <Text mb={8}>
-          <StatusBadge status={vaccine.status as string} />
-        </Text>
+        <StatusBadge status={vaccine.status as string} />
         {vaccine.occurrenceDateTime && (
           <Text c="gray.6">
             <IconCalendar size={16} style={{ marginRight: 4 }} />

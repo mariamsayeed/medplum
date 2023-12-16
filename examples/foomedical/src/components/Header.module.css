@@ -17,15 +17,15 @@
 }
 
 .links {
-  /* [theme.fn.smallerThan(sm)] {
+  @mixin smaller-than $mantine-breakpoint-sm {
     display: none;
-  } */
+  }
 }
 
 .burger {
-  /* [theme.fn.largerThan(sm)] {
+  @mixin larger-than $mantine-breakpoint-sm {
     display: none;
-  } */
+  }
 }
 
 .link {
@@ -57,9 +57,9 @@
     background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-8));
   }
 
-  /* [theme.fn.smallerThan(xs)] {
+  @mixin smaller-than $mantine-breakpoint-xs {
     display: none;
-  } */
+  }
 }
 
 .userActive {
