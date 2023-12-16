@@ -1,4 +1,4 @@
-import { MantineProvider, MantineThemeOverride } from '@mantine/core';
+import { MantineProvider, createTheme } from '@mantine/core';
 import '@mantine/core/styles.css';
 import { MedplumClient } from '@medplum/core';
 import { MedplumProvider } from '@medplum/react';
@@ -13,7 +13,7 @@ if (!root) {
   throw new Error('#root not found in HTML!');
 }
 
-const theme: MantineThemeOverride = {
+const theme = createTheme({
   headings: {
     sizes: {
       h1: {
@@ -30,7 +30,7 @@ const theme: MantineThemeOverride = {
     lg: '1.0rem',
     xl: '1.125rem',
   },
-};
+});
 
 const medplum = new MedplumClient({
   onUnauthenticated: () => (window.location.href = '/'),

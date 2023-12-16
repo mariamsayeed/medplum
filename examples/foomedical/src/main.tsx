@@ -1,4 +1,4 @@
-import { MantineProvider, MantineThemeOverride } from '@mantine/core';
+import { MantineProvider, createTheme } from '@mantine/core';
 import '@mantine/core/styles.css';
 import '@mantine/notifications/styles.css';
 import { MedplumClient } from '@medplum/core';
@@ -15,7 +15,7 @@ const medplum = new MedplumClient({
   onUnauthenticated: () => (window.location.href = '/'),
 });
 
-const theme: MantineThemeOverride = {
+const theme = createTheme({
   primaryColor: 'teal',
   primaryShade: 8,
   fontSizes: {
@@ -32,7 +32,7 @@ const theme: MantineThemeOverride = {
       },
     },
   },
-};
+});
 
 const root = createRoot(document.getElementById('root') as HTMLElement);
 root.render(

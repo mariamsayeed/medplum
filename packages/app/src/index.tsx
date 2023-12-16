@@ -1,4 +1,4 @@
-import { MantineProvider, MantineThemeOverride } from '@mantine/core';
+import { MantineProvider, createTheme } from '@mantine/core';
 import '@mantine/core/styles.css';
 import { Notifications } from '@mantine/notifications';
 import '@mantine/notifications/styles.css';
@@ -40,7 +40,7 @@ export async function initApp(): Promise<void> {
     },
   });
 
-  const theme: MantineThemeOverride = {
+  const theme = createTheme({
     headings: {
       sizes: {
         h1: {
@@ -57,7 +57,7 @@ export async function initApp(): Promise<void> {
       lg: '1.0rem',
       xl: '1.125rem',
     },
-  };
+  });
 
   const router = createBrowserRouter([{ path: '*', element: <App /> }]);
 

@@ -1,4 +1,4 @@
-import { MantineProvider, MantineThemeOverride } from '@mantine/core';
+import { MantineProvider, createTheme } from '@mantine/core';
 import '@mantine/core/styles.css';
 import { MedplumClient } from '@medplum/core';
 import { MedplumProvider } from '@medplum/react';
@@ -13,7 +13,7 @@ const medplum = new MedplumClient({
   // baseUrl: 'http://localhost:8103/', //Uncomment this to run against the server on your localhost; also change `googleClientId` in `./pages/SignInPage.tsx`
 });
 
-const theme: MantineThemeOverride = {
+const theme = createTheme({
   headings: {
     sizes: {
       h1: {
@@ -30,7 +30,7 @@ const theme: MantineThemeOverride = {
     lg: '1.0rem',
     xl: '1.125rem',
   },
-};
+});
 
 const container = document.getElementById('root') as HTMLDivElement;
 const root = createRoot(container);
