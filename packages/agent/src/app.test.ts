@@ -39,6 +39,8 @@ describe('App', () => {
 
     const agent = await medplum.createResource<Agent>({
       resourceType: 'Agent',
+      name: 'Test Agent',
+      status: 'active',
     });
 
     const app = new App(medplum, agent.id as string);

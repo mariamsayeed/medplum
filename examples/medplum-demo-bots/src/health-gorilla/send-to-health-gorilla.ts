@@ -606,7 +606,7 @@ class HealthGorillaRequestGroupBuilder {
             ...medplumCoverage,
             id: 'coverage' + this.coverages.length,
             beneficiary: createReference(this.patient),
-            payor: undefined,
+            payor: [],
             subscriber: undefined,
           };
 

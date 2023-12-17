@@ -1,13 +1,13 @@
 import {
+  TypedValue,
   deepClone,
   evalFhirPathTyped,
   formatCoding,
   getExtension,
-  getTypedPropertyValue,
-  TypedValue,
   getReferenceString,
-  stringify,
+  getTypedPropertyValue,
   splitN,
+  stringify,
 } from '@medplum/core';
 import {
   Encounter,
@@ -268,6 +268,7 @@ export function buildInitialResponse(questionnaire: Questionnaire): Questionnair
     resourceType: 'QuestionnaireResponse',
     questionnaire: getReferenceString(questionnaire),
     item: buildInitialResponseItems(questionnaire.item),
+    status: 'in-progress',
   };
 
   return response;

@@ -15,7 +15,7 @@ import { OperatorPrecedence, initFhirPathParserBuilder } from '../fhirpath/parse
 import { tokenize } from './tokenize';
 
 class StructureMapParser {
-  readonly structureMap: StructureMap = { resourceType: 'StructureMap' };
+  readonly structureMap: Partial<StructureMap> = { resourceType: 'StructureMap' };
   constructor(readonly parser: Parser) {}
 
   parse(): StructureMap {
@@ -41,7 +41,7 @@ class StructureMapParser {
           throw new Error(`Unexpected token: ${next}`);
       }
     }
-    return this.structureMap;
+    return this.structureMap as StructureMap;
   }
 
   private parseMap(): void {
@@ -57,7 +57,7 @@ class StructureMapParser {
     // 'uses' url structureAlias? 'as' modelMode
     // uses "http://hl7.org/fhir/StructureDefinition/tutorial-left" as source
     this.parser.consume('Symbol', 'uses');
-    const result: StructureMapStructure = {};
+    const result: Partial<StructureMapStructure> = {};
     result.url = this.parser.consume('String').value;
     if (this.parser.peek()?.value === 'alias') {
       this.parser.consume('Symbol', 'alias');
@@ -68,7 +68,7 @@ class StructureMapParser {
     if (!this.structureMap.structure) {
       this.structureMap.structure = [];
     }
-    this.structureMap.structure.push(result);
+    this.structureMap.structure.push(result as StructureMapStructure);
   }
 
   private parseImport(): void {
@@ -82,7 +82,7 @@ class StructureMapParser {
   private parseGroup(): void {
     // 'group' identifier parameters extends? typeMode? rules
     // group tutorial(source src : TLeft, target tgt : TRight) {
-    const result: StructureMapGroup = {};
+    const result: Partial<StructureMapGroup> = {};
     this.parser.consume('Symbol', 'group');
     result.name = this.parser.consume('Symbol').value;
     result.input = this.parseParameters();
@@ -109,7 +109,7 @@ class StructureMapParser {
     if (!this.structureMap.group) {
       this.structureMap.group = [];
     }
-    this.structureMap.group.push(result);
+    this.structureMap.group.push(result as StructureMapGroup);
   }
 
   private parseParameters(): StructureMapGroupInput[] {
@@ -129,14 +129,14 @@ class StructureMapParser {
     // inputMode identifier type?
     // ':' identifier
     // source src : TLeft
-    const result: StructureMapGroupInput = {};
+    const result: Partial<StructureMapGroupInput> = {};
     result.mode = this.parser.consume().value as 'source' | 'target';
     result.name = this.parser.consume('Symbol').value;
     if (this.parser.peek()?.value === ':') {
       this.parser.consume(':');
       result.type = this.parser.consume('Symbol').value;
     }
-    return result;
+    return result as StructureMapGroupInput;
   }
 
   private parseRules(): StructureMapGroupRule[] {
@@ -150,7 +150,7 @@ class StructureMapParser {
   }
 
   private parseRule(): StructureMapGroupRule {
-    const result: StructureMapGroupRule = {
+    const result: Partial<StructureMapGroupRule> = {
       source: this.parseRuleSources(),
     };
 
@@ -175,7 +175,7 @@ class StructureMapParser {
     }
 
     this.parser.consume(';');
-    return result;
+    return result as StructureMapGroupRule;
   }
 
   private parseRuleSources(): StructureMapGroupRuleSource[] {
@@ -188,7 +188,7 @@ class StructureMapParser {
   }
 
   private parseRuleSource(): StructureMapGroupRuleSource {
-    const result: StructureMapGroupRuleSource = {};
+    const result: Partial<StructureMapGroupRuleSource> = {};
 
     const context = this.parseRuleContext();
     const parts = context.split('.');
@@ -237,7 +237,7 @@ class StructureMapParser {
       result.check = checkFhirPath.toString();
     }
 
-    return result;
+    return result as StructureMapGroupRuleSource;
   }
 
   private parseRuleTargets(): StructureMapGroupRuleTarget[] {

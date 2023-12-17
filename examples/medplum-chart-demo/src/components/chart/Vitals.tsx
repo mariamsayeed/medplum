@@ -87,6 +87,7 @@ export function Vitals(props: VitalsProps): JSX.Element {
       const newAllergy: Observation = {
         resourceType: 'Observation',
         id: generateId(),
+        status: 'final',
         code: { coding: [{ code: formData.allergy, display: formData.allergy }] },
       };
 

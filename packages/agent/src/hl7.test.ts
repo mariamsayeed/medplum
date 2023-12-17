@@ -24,7 +24,7 @@ describe('HL7', () => {
     endpoint = await medplum.createResource<Endpoint>({
       resourceType: 'Endpoint',
       address: 'mllp://0.0.0.0:57000',
-    });
+    } as Endpoint);
   });
 
   test('Send and receive', async () => {
@@ -69,7 +69,7 @@ describe('HL7', () => {
           targetReference: createReference(bot),
         },
       ],
-    });
+    } as Agent);
 
     const app = new App(medplum, agent.id as string);
     await app.start();
@@ -121,11 +121,12 @@ describe('HL7', () => {
       resourceType: 'Agent',
       channel: [
         {
+          name: 'test',
           endpoint: createReference(endpoint),
           targetReference: createReference(bot),
         },
       ],
-    });
+    } as Agent);
 
     // Start an HL7 listener
     const hl7Messages = [];
