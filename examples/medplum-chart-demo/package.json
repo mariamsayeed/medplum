@@ -19,13 +19,13 @@
     ]
   },
   "devDependencies": {
+    "@mantine/core": "7.3.2",
+    "@mantine/hooks": "7.3.2",
+    "@mantine/notifications": "7.3.2",
     "@medplum/core": "2.2.5",
     "@medplum/eslint-config": "2.2.5",
     "@medplum/fhirtypes": "2.2.5",
     "@medplum/react": "2.2.5",
-    "@mantine/core": "7.3.2",
-    "@mantine/hooks": "7.3.2",
-    "@mantine/notifications": "7.3.2",
     "@tabler/icons-react": "2.42.0",
     "@types/node": "20.10.3",
     "@types/react": "18.2.42",
