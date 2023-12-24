@@ -45,7 +45,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export interface PlanDefinitionBuilderProps {
-  value: PlanDefinition | Reference<PlanDefinition>;
+  value: Partial<PlanDefinition> | Reference<PlanDefinition>;
   onSubmit: (result: PlanDefinition) => void;
 }
 

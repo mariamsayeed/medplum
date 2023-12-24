@@ -1,4 +1,13 @@
-import { Attachment, CodeableConcept, ObservationDefinition, Patient, Resource } from '@medplum/fhirtypes';
+import {
+  Attachment,
+  CodeableConcept,
+  DeviceDeviceName,
+  Observation,
+  ObservationDefinition,
+  Patient,
+  Resource,
+  User,
+} from '@medplum/fhirtypes';
 import { ContentType } from './contenttype';
 import {
   ResourceWithCode,
@@ -103,18 +112,20 @@ describe('Core Utils', () => {
   test('isProfileResource', () => {
     expect(isProfileResource({ resourceType: 'Patient' })).toEqual(true);
     expect(isProfileResource({ resourceType: 'Practitioner' })).toEqual(true);
-    expect(isProfileResource({ resourceType: 'RelatedPerson' })).toEqual(true);
-    expect(isProfileResource({ resourceType: 'Observation' })).toEqual(false);
+    expect(isProfileResource({ resourceType: 'RelatedPerson', patient: {} })).toEqual(true);
+    expect(isProfileResource({ resourceType: 'Observation', status: 'final', code: { text: 'test' } })).toEqual(false);
   });
 
   test('getDisplayString', () => {
     expect(getDisplayString({ resourceType: 'Patient', name: [{ family: 'Smith' }] })).toEqual('Smith');
     expect(getDisplayString({ resourceType: 'Patient', id: '123', name: [] })).toEqual('Patient/123');
-    expect(getDisplayString({ resourceType: 'Observation', id: '123' })).toEqual('Observation/123');
-    expect(getDisplayString({ resourceType: 'Observation', id: '123', code: {} })).toEqual('Observation/123');
-    expect(getDisplayString({ resourceType: 'Observation', id: '123', code: { text: 'TESTOSTERONE' } })).toEqual(
-      'TESTOSTERONE'
+    expect(getDisplayString({ resourceType: 'Observation', id: '123' } as Observation)).toEqual('Observation/123');
+    expect(getDisplayString({ resourceType: 'Observation', id: '123', code: {} } as Observation)).toEqual(
+      'Observation/123'
     );
+    expect(
+      getDisplayString({ resourceType: 'Observation', id: '123', code: { text: 'TESTOSTERONE' } } as Observation)
+    ).toEqual('TESTOSTERONE');
     expect(getDisplayString({ resourceType: 'ClientApplication', id: '123' })).toEqual('ClientApplication/123');
     expect(
       getDisplayString({
@@ -126,13 +137,15 @@ describe('Core Utils', () => {
     expect(
       getDisplayString({
         resourceType: 'Device',
-        deviceName: [{ name: 'Foo' }],
+        deviceName: [{ type: 'model-name', name: 'Foo' }],
       })
     ).toEqual('Foo');
-    expect(getDisplayString({ resourceType: 'Device', id: '123', deviceName: [{}] })).toEqual('Device/123');
+    expect(getDisplayString({ resourceType: 'Device', id: '123', deviceName: [{} as DeviceDeviceName] })).toEqual(
+      'Device/123'
+    );
     expect(getDisplayString({ resourceType: 'Device', id: '123', deviceName: [] })).toEqual('Device/123');
-    expect(getDisplayString({ resourceType: 'User', email: 'foo@example.com' })).toEqual('foo@example.com');
-    expect(getDisplayString({ resourceType: 'User', id: '123' })).toEqual('User/123');
+    expect(getDisplayString({ resourceType: 'User', email: 'foo@example.com' } as User)).toEqual('foo@example.com');
+    expect(getDisplayString({ resourceType: 'User', id: '123' } as User)).toEqual('User/123');
   });
 
   const EMPTY = [true, false];
@@ -170,7 +183,7 @@ describe('Core Utils', () => {
   });
 
   test('getImageSrc', () => {
-    expect(getImageSrc({ resourceType: 'Observation' })).toBeUndefined();
+    expect(getImageSrc({ resourceType: 'Observation' } as Observation)).toBeUndefined();
     expect(getImageSrc({ resourceType: 'Patient' })).toBeUndefined();
     expect(getImageSrc({ resourceType: 'Patient', photo: null as unknown as Attachment[] })).toBeUndefined();
     expect(getImageSrc({ resourceType: 'Patient', photo: [] })).toBeUndefined();
@@ -276,11 +289,13 @@ describe('Core Utils', () => {
     expect(
       getQuestionnaireAnswers({
         resourceType: 'QuestionnaireResponse',
+        status: 'completed',
       })
     ).toMatchObject({});
     expect(
       getQuestionnaireAnswers({
         resourceType: 'QuestionnaireResponse',
+        status: 'completed',
         item: [
           { linkId: 'q1', answer: [{ valueString: 'xyz' }] },
           { linkId: 'q2', answer: [{ valueDecimal: 2.0 }] },
@@ -295,6 +310,7 @@ describe('Core Utils', () => {
     expect(
       getQuestionnaireAnswers({
         resourceType: 'QuestionnaireResponse',
+        status: 'completed',
         item: [
           {
             linkId: 'group1',
@@ -323,12 +339,14 @@ describe('Core Utils', () => {
     expect(
       getAllQuestionnaireAnswers({
         resourceType: 'QuestionnaireResponse',
+        status: 'completed',
       })
     ).toMatchObject({});
 
     expect(
       getAllQuestionnaireAnswers({
         resourceType: 'QuestionnaireResponse',
+        status: 'completed',
         item: [
           { linkId: 'q1', answer: [{ valueString: 'xyz' }, { valueString: 'abc' }] },
           { linkId: 'q2', answer: [{ valueDecimal: 2.0 }, { valueDecimal: 3.0 }] },
@@ -344,6 +362,7 @@ describe('Core Utils', () => {
     expect(
       getAllQuestionnaireAnswers({
         resourceType: 'QuestionnaireResponse',
+        status: 'completed',
         item: [
           {
             linkId: 'group1',
@@ -673,10 +692,12 @@ describe('Core Utils', () => {
   test('findObservationInterval', () => {
     const def1: ObservationDefinition = {
       resourceType: 'ObservationDefinition',
+      code: { text: 'test' },
     };
 
     const def2: ObservationDefinition = {
       resourceType: 'ObservationDefinition',
+      code: { text: 'test' },
       qualifiedInterval: [
         { condition: 'L', range: { low: { value: 1, unit: 'mg' }, high: { value: 3, unit: 'mg' } } },
         { condition: 'N', range: { low: { value: 4, unit: 'mg' }, high: { value: 6, unit: 'mg' } } },
@@ -706,6 +727,7 @@ describe('Core Utils', () => {
   test('findObservationInterval by category', () => {
     const def: ObservationDefinition = {
       resourceType: 'ObservationDefinition',
+      code: { text: 'test' },
       qualifiedInterval: [
         {
           category: 'absolute',
@@ -735,6 +757,7 @@ describe('Core Utils', () => {
   test('findObservationInterval with decimal precision', () => {
     const def: ObservationDefinition = {
       resourceType: 'ObservationDefinition',
+      code: { text: 'test' },
       quantitativeDetails: {
         decimalPrecision: 1,
       },
@@ -765,6 +788,7 @@ describe('Core Utils', () => {
   test('findObservationInterval by gender and age', () => {
     const def: ObservationDefinition = {
       resourceType: 'ObservationDefinition',
+      code: { text: 'test' },
       qualifiedInterval: [
         {
           gender: 'male',
@@ -961,6 +985,7 @@ describe('Core Utils', () => {
       {
         resourceType: 'Observation',
         id: '1',
+        status: 'final',
         code: {
           coding: [
             {
@@ -973,6 +998,7 @@ describe('Core Utils', () => {
       {
         resourceType: 'Observation',
         id: '2',
+        status: 'final',
         code: {
           coding: [
             {
@@ -1005,6 +1031,7 @@ describe('Core Utils', () => {
       {
         resourceType: 'Observation',
         id: '1',
+        status: 'final',
         code: {},
       },
     ];
@@ -1029,6 +1056,7 @@ describe('Core Utils', () => {
       {
         resourceType: 'Observation',
         id: '1',
+        status: 'final',
         code: {
           coding: [
             {

@@ -110,7 +110,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export interface QuestionnaireBuilderProps {
-  questionnaire: Questionnaire | Reference<Questionnaire>;
+  questionnaire: Partial<Questionnaire> | Reference<Questionnaire>;
   onSubmit: (result: Questionnaire) => void;
   autoSave?: boolean;
 }
