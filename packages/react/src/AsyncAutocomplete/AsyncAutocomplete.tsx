@@ -142,7 +142,7 @@ export function AsyncAutocomplete<T>(props: AsyncAutocompleteProps<T>): JSX.Elem
   const handleValueSelect = (val: string): void => {
     setSearch('');
     setOptions([]);
-    setLastValue(undefined);
+    lastValueRef.current = undefined;
     if (val === '$create') {
       handleChange([search]);
     } else {
