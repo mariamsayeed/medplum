@@ -58,10 +58,10 @@ export function QuestionnaireGroup(props: QuestionnaireGroupProps): JSX.Element 
     const newResponse = response.item?.map((current) => {
       const matchingItem = newResponseItem.find((newResponse) => newResponse.id === current.id);
       return matchingItem ?? current;
-    }) as QuestionnaireResponseItem[];
+    });
     // This checks to see if there were any nested repeated groups that we need to add
-    const mergedResponse = newResponse?.concat(newResponseItem.slice(1)) as QuestionnaireResponseItem[];
-    const groupResponse = { ...response, item: mergedResponse } as QuestionnaireResponseItem;
+    const mergedResponse = newResponse?.concat(newResponseItem.slice(1));
+    const groupResponse = { ...response, item: mergedResponse };
     onChange([groupResponse]);
   }
 
