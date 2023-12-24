@@ -15,7 +15,11 @@ import { OperatorPrecedence, initFhirPathParserBuilder } from '../fhirpath/parse
 import { tokenize } from './tokenize';
 
 class StructureMapParser {
-  readonly structureMap: Partial<StructureMap> = { resourceType: 'StructureMap' };
+  readonly structureMap: Partial<StructureMap> = {
+    resourceType: 'StructureMap',
+    status: 'active',
+  };
+
   constructor(readonly parser: Parser) {}
 
   parse(): StructureMap {
