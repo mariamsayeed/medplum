@@ -61,6 +61,8 @@ export function assignValuesIntoSlices(
     return [values];
   }
 
+  console.log(`Assigning ${values.length} into ${slices.length} slices`, slices);
+
   // store values in an array of arrays: one for each slice plus another for non-sliced values
   const slicedValues: any[][] = new Array(slices.length + 1);
   for (let i = 0; i < slicedValues.length; i++) {
@@ -78,8 +80,15 @@ export function assignValuesIntoSlices(
 
   // for slices without existing values, add a placeholder empty value
   for (let i = 0; i < slices.length; i++) {
-    if (slicedValues[i].length === 0) {
-      slicedValues[i].push(undefined);
+    const slice = slices[i];
+    const sliceValues = slicedValues[i];
+
+    if (sliceValues.length < slice.min) {
+      while (sliceValues.length < slice.min) {
+        sliceValues.push(undefined);
+      }
+    } else if (sliceValues.length === 0) {
+      sliceValues.push(undefined);
     }
   }
 

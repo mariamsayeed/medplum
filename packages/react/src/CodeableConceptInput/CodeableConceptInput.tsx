@@ -1,16 +1,30 @@
 import { CodeableConcept, ValueSetExpansionContains } from '@medplum/fhirtypes';
-import { useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { ValueSetAutocomplete, ValueSetAutocompleteProps } from '../ValueSetAutocomplete/ValueSetAutocomplete';
+import { ElementsContext } from '../ElementsInput/ElementsInput.utils';
+import { ComplexTypeInputProps } from '../ResourcePropertyInput/ResourcePropertyInput.utils';
 
-export interface CodeableConceptInputProps extends Omit<ValueSetAutocompleteProps, 'defaultValue' | 'onChange'> {
-  defaultValue?: CodeableConcept;
-  onChange?: (value: CodeableConcept | undefined) => void;
-}
+export type CodeableConceptInputProps = Omit<ValueSetAutocompleteProps, 'defaultValue' | 'onChange'> &
+  ComplexTypeInputProps<CodeableConcept> & {
+    onChange: ((value: CodeableConcept | undefined) => void) | undefined;
+  };
 
 export function CodeableConceptInput(props: CodeableConceptInputProps): JSX.Element {
-  const { defaultValue, onChange, ...rest } = props;
+  const { defaultValue, onChange, path, ...rest } = props;
   const [value, setValue] = useState<CodeableConcept | undefined>(defaultValue);
+  const { getModifiedNestedElement } = useContext(ElementsContext);
 
+  // ignoring id, extension, version, userSelected
+  const [systemElement, codeElement, displayElement] = useMemo(
+    () => ['system', 'code', 'display'].map((field) => getModifiedNestedElement(path + '.' + field)),
+    [getModifiedNestedElement, path]
+  );
+
+  useEffect(() => {
+    console.log('CC nested', { systemElement, codeElement, displayElement });
+  }, [systemElement, codeElement, displayElement]);
+
+  console.log(props);
   function handleChange(newValues: ValueSetExpansionContains[]): void {
     const newConcept = valueSetElementToCodeableConcept(newValues);
     setValue(newConcept);

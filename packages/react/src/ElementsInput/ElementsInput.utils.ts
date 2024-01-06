@@ -48,6 +48,7 @@ export function buildElementsContext(
   const nestedPaths: Record<string, InternalSchemaElement> = Object.create(null);
 
   function getModifiedNestedElement(nestedElementPath: string): InternalSchemaElement {
+    console.log(nestedElementPath, Object.keys(nestedPaths));
     return nestedPaths[nestedElementPath];
   }
 

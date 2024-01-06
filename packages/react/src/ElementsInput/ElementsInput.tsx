@@ -83,7 +83,7 @@ export function ElementsInput(props: ElementsInputProps): JSX.Element {
           // Skip nested elements, e.g. identifier.use, since they are handled by the containing element
           if (key.includes('.')) {
             if (DEBUG) {
-              console.log('SKIPPING', props.testId, key, element);
+              console.log('SKIPPING', key);
             }
             return null;
           }

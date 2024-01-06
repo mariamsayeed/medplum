@@ -1,7 +1,7 @@
 import { Group, Stack, createStyles } from '@mantine/core';
-import { InternalSchemaElement, getPropertyDisplayName, isEmpty } from '@medplum/core';
+import { InternalSchemaElement, getPropertyDisplayName, isEmpty, isPopulated } from '@medplum/core';
 import { OperationOutcome } from '@medplum/fhirtypes';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { ElementsInput } from '../ElementsInput/ElementsInput';
 import { FormSection } from '../FormSection/FormSection';
 import { ElementDefinitionTypeInput } from '../ResourcePropertyInput/ResourcePropertyInput';
@@ -9,6 +9,7 @@ import { killEvent } from '../utils/dom';
 import { SupportedSliceDefinition } from './SliceInput.utils';
 import { ArrayAddButton } from '../buttons/ArrayAddButton';
 import { ArrayRemoveButton } from '../buttons/ArrayRemoveButton';
+import { ElementsContext, ElementsContextType, buildElementsContext } from '../ElementsInput/ElementsInput.utils';
 
 export type SliceInputProps = Readonly<{
   slice: SupportedSliceDefinition;
@@ -27,12 +28,29 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
+function maybeWrapWithContext(contextValue: ElementsContextType | undefined, contents: JSX.Element): JSX.Element {
+  if (contextValue) {
+    return <ElementsContext.Provider value={contextValue}>{contents}</ElementsContext.Provider>;
+  }
+
+  return contents;
+}
+
 export function SliceInput(props: SliceInputProps): JSX.Element | null {
   const { slice, property } = props;
   const [values, setValues] = useState<any[]>(() => {
     return props.defaultValue.map((v) => v ?? {});
   });
   const { classes } = useStyles();
+
+  const sliceType = slice.typeSchema?.type ?? slice.type[0].code;
+
+  const context = useMemo(() => {
+    if (!isPopulated(slice.elements)) {
+      return undefined;
+    }
+    return buildElementsContext(slice.elements, sliceType, undefined);
+  }, [slice.elements, sliceType]);
 
   function setValuesWrapper(newValues: any[]): void {
     setValues(newValues);
@@ -47,7 +65,8 @@ export function SliceInput(props: SliceInputProps): JSX.Element | null {
   // e.g. USCorePatientProfile -> USCoreEthnicityExtension -> {ombCategory, detailed, text}
   const indentedStack = isEmpty(slice.elements);
   const propertyDisplayName = getPropertyDisplayName(slice.name);
-  return (
+  return maybeWrapWithContext(
+    context,
     <FormSection
       title={propertyDisplayName}
       description={slice.definition}
@@ -57,42 +76,47 @@ export function SliceInput(props: SliceInputProps): JSX.Element | null {
     >
       <Stack className={indentedStack ? classes.indented : undefined}>
         {values.map((value, valueIndex) => {
+          let contents: JSX.Element;
+          if (false && isPopulated(slice.elements)) {
+            contents = (
+              <ElementsInput
+                type={slice.typeSchema?.type ?? slice.type[0].code}
+                elements={slice.elements}
+                defaultValue={value}
+                outcome={props.outcome}
+                onChange={(newValue) => {
+                  const newValues = [...values];
+                  newValues[valueIndex] = newValue;
+                  setValuesWrapper(newValues);
+                }}
+                testId={props.testId && `${props.testId}-elements-${valueIndex}`}
+                typeSchema={slice.typeSchema}
+              />
+            );
+          } else {
+            contents = (
+              <ElementDefinitionTypeInput
+                elementDefinitionType={slice.type[0]}
+                name={slice.name}
+                defaultValue={value}
+                onChange={(newValue) => {
+                  const newValues = [...values];
+                  newValues[valueIndex] = newValue;
+                  setValuesWrapper(newValues);
+                }}
+                outcome={undefined}
+                min={slice.min}
+                max={slice.max}
+                binding={undefined}
+                path={slice.path}
+              />
+            );
+          }
+
           return (
             <Group key={`${valueIndex}-${values.length}`} noWrap>
               <div style={{ flexGrow: 1 }}>
-                <Stack>
-                  {!isEmpty(slice.elements) ? (
-                    <ElementsInput
-                      type={slice.typeSchema?.type ?? slice.type[0].code}
-                      elements={slice.elements}
-                      defaultValue={value}
-                      outcome={props.outcome}
-                      onChange={(newValue) => {
-                        const newValues = [...values];
-                        newValues[valueIndex] = newValue;
-                        setValuesWrapper(newValues);
-                      }}
-                      testId={props.testId && `${props.testId}-elements-${valueIndex}`}
-                      typeSchema={slice.typeSchema}
-                    />
-                  ) : (
-                    <ElementDefinitionTypeInput
-                      elementDefinitionType={slice.type[0]}
-                      name={slice.name}
-                      defaultValue={value}
-                      onChange={(newValue) => {
-                        const newValues = [...values];
-                        newValues[valueIndex] = newValue;
-                        setValuesWrapper(newValues);
-                      }}
-                      outcome={undefined}
-                      min={slice.min}
-                      max={slice.max}
-                      binding={undefined}
-                      path={slice.path}
-                    />
-                  )}
-                </Stack>
+                <Stack>{contents}</Stack>
               </div>
               {values.length > slice.min && (
                 <ArrayRemoveButton
