@@ -124,7 +124,7 @@ describe('Config', () => {
     });
 
     test('Missing `region` in config', async () => {
-      // @ts-expect-error Region must be defined
+     
       await expect(normalizeInfraConfig({ ...baseConfig, region: undefined })).rejects.toBeInstanceOf(
         OperationOutcomeError
       );

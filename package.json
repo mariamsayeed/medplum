@@ -53,12 +53,13 @@
     "nyc": "15.1.0",
     "prettier": "3.1.0",
     "rimraf": "5.0.5",
+    "shx": "^0.3.4",
     "sort-package-json": "2.6.0",
     "source-map-explorer": "2.5.3",
     "ts-node": "10.9.1",
     "tslib": "2.6.2",
     "turbo": "1.11.0",
-    "typescript": "5.3.2"
+    "typescript": "^5.3.3"
   },
   "packageManager": "npm@9.8.1",
   "engines": {
@@ -72,5 +73,9 @@
     "react-dom": "18.2.0",
     "trim": "0.0.3",
     "vite": "5.0.5"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.485.0",
+    "@aws-sdk/client-s3": "^3.485.0"
   }
 }
